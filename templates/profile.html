@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Страница пользователя {{ author.username }}{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+<main role="main" class="container">
+    <div class="row">
+        {% include 'includes/userinfo.html' %}
+        {% include 'includes/user_posts.html' %}
+    </div>
+</main>
+{% endblock %}

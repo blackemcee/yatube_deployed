@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Об авторе проекта{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+{% load user_filters %}
+  <main role="main" class="container">
+    <div class="row">
+      <div class="col-md-3 mb-3 mt-1">
+        <div class="card">
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="h3">
+                  Об авторе
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="h6 text-muted">
+                  Меня зовут Юрий Кириллов, я автор этого потрясающего проекта
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9">
+        <div class="card-body">
+          <div class="card-text">
+            <p>Юрий Кириллов родился 13 ноября 1985 года в усадьбе Ясная
+               Поляна Тульской губернии.
+               Он был четвертым ребенком в большой дворянской семье. Юрий
+               рано осиротел. Мать умерла, когда ему не исполнилось еще двух
+               лет, а в девять лет он лишился и отца. Опекуном пятерых детей
+               Кирилловых стала тетя —
+               Александра Остен-Сакен. Два старших ребенка переехали к тете
+               в Москву, а младшие остались в Ясной Поляне. Именно с
+               семейной усадьбой связаны самые важные и дорогие воспоминания
+               раннего детства Юрия Кириллова.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}

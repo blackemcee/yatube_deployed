@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}О технологиях{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+{% load user_filters %}
+  <main role="main" class="container">
+    <div class="row">
+      <div class="col-md-3 mb-3 mt-1">
+        <div class="card">
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="h3">
+                  Технологии проекта
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="h6 text-muted">
+                  Это учебный проект на Django
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9">
+        <div class="card-body">
+          <div class="card-text">
+            <p>
+               Django (Джанго, ['dʒæŋɡoʊ]) — свободный фреймворк для
+               веб-приложений на языке Python,
+               использующий шаблон проектирования MVC[7]. Проект
+               поддерживается организацией Django Software Foundation.
+            </p>
+            <p>
+               Сайт на Django строится из одного или нескольких приложений,
+               которые рекомендуется делать отчуждаемыми и подключаемыми.
+               Это одно из существенных архитектурных отличий этого
+               фреймворка от некоторых других (например, Ruby on Rails).
+               Один из основных принципов фреймворка — DRY (англ. Don't
+               repeat yourself)
+            </p>
+            <p>
+               Также, в отличие от других фреймворков, обработчики URL в
+               Django конфигурируются явно при помощи регулярных выражений.
+               Для работы с базой данных Django использует собственный ORM, в
+               котором модель данных описывается классами Python, и по ней
+               генерируется схема базы данных.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+{% endblock %}
