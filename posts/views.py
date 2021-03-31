@@ -35,7 +35,7 @@ def new_post(request):
         post.author = request.user
         post.save()
         return redirect('index')
-    return render(request, 'posts/new.html', {'form': form, 'is_edit': False})
+    return render(request, 'new.html', {'form': form, 'is_edit': False})
 
 
 def profile(request, username):
@@ -45,15 +45,19 @@ def profile(request, username):
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     number_of_posts = posts.count()
-    following = False
-    if request.user.is_authenticated:
-        following = Follow.objects.filter(
-            user=request.user,
-            author__username=username
-        ).exists()
+    number_of_following = Follow.objects.filter(
+        user_id__username=username).count()
+    number_of_followers = Follow.objects.filter(
+        author_id__username=username).count()
+    following = request.user.is_authenticated and Follow.objects.filter(
+        user=request.user,
+        author__username=username
+    ).exists()
     context = {
         'author': user,
         'number_of_posts': number_of_posts,
+        'number_of_followers': number_of_followers,
+        'number_of_following': number_of_following,
         'page': page,
         'following': following
     }
@@ -91,7 +95,7 @@ def post_edit(request, username, post_id):
         form.save()
         return redirect(redirect_url)
     return render(request,
-                  'posts/new.html',
+                  'new.html',
                   {'form': form,
                    'author': username,
                    'post': post,
@@ -114,7 +118,7 @@ def server_error(request):
 
 @login_required
 def add_comment(request, username, post_id):
-    post = get_object_or_404(Post, id=post_id)
+    post = get_object_or_404(Post, author__username=username, id=post_id)
     form = CommentForm(request.POST or None)
     if form.is_valid():
         comment = form.save(commit=False)

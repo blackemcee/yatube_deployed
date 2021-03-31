@@ -48,6 +48,10 @@ class GroupPostModelTests(TestCase):
         cls.open_urls_list = ['/', '/group/test-slug/']
         cls.auth_urls_list = ['/new/']
 
+        cls.authorized_client.get(reverse(
+            'profile_follow',
+            kwargs={'username': cls.post.author}))
+
     @classmethod
     def tearDownClass(cls):
         shutil.rmtree(settings.MEDIA_ROOT, ignore_errors=True)
@@ -61,7 +65,7 @@ class GroupPostModelTests(TestCase):
         template_pages_names = {
             'index.html': reverse('index'),
             'group.html': (reverse('groups', kwargs={'slug': 'push'})),
-            'posts/new.html': reverse('new_post'),
+            'new.html': reverse('new_post'),
         }
         for template, reverse_name in template_pages_names.items():
             with self.subTest(reverse_name=reverse_name):
@@ -169,7 +173,9 @@ class GroupPostModelTests(TestCase):
         self.assertEqual(post, response_post)
 
     def test_index_cache(self):
-        """Проверка кеширования записей на главной странице"""
+        """
+        Проверка кеширования записей на главной странице
+        """
         initial_response = GroupPostModelTests.authorized_client.get(
             reverse('index')).content
         Post.objects.create(
@@ -184,18 +190,21 @@ class GroupPostModelTests(TestCase):
             reverse('index')).content
         self.assertNotEqual(new_response, response_with_new_post)
 
-    def test_user_can_follow_unfollow(self):
+    def test_user_can_follow(self):
         """
         Проверка, что авторизованный пользователь может
-        подписываться на других пользователей и удалять их из подписок
+        подписываться на других пользователей
         """
-        GroupPostModelTests.authorized_client.get(reverse(
-            'profile_follow',
-            kwargs={'username': GroupPostModelTests.post.author}))
         link = Follow.objects.filter(
             user=GroupPostModelTests.user,
             author__username=GroupPostModelTests.post.author).count()
         self.assertEqual(link, 1)
+
+    def test_user_can_unfollow(self):
+        """
+        Проверка, что авторизованный пользователь может
+        отписываться от других пользователей
+        """
         GroupPostModelTests.authorized_client.get(reverse(
             'profile_unfollow',
             kwargs={'username': GroupPostModelTests.post.author}))
@@ -207,18 +216,19 @@ class GroupPostModelTests(TestCase):
     def test_user_sees_followed_posts(self):
         """
         Проверка, что новая запись пользователя появляется
-        в ленте тех, кто на него подписан и не появляется в ленте тех,
-        кто не подписан на него
+        в ленте тех, кто на него подписан
         """
-        GroupPostModelTests.authorized_client.get(reverse(
-            'profile_follow',
-            kwargs={'username': GroupPostModelTests.post.author}))
         response = GroupPostModelTests.authorized_client.get(reverse(
             'follow_index'))
         post = GroupPostModelTests.post
         response_post = response.context['page'][0]
         self.assertEqual(post, response_post)
 
+    def test_user_not_seeing_not_followed_posts(self):
+        """
+        Проверка, что новая запись пользователя не появляется в ленте тех,
+        кто не подписан на него
+        """
         other_user = User.objects.create_user(username='other_user')
         other_authorized_client = Client()
         other_authorized_client.force_login(other_user)
@@ -226,7 +236,7 @@ class GroupPostModelTests(TestCase):
         with self.assertRaises(IndexError):
             response.context['page'][0]
 
-    def test_who_can_commnet_under_posts(self):
+    def test_who_can_comment_under_posts(self):
         """
         Проверка, что только авторизованный пользователь может
         комментировать посты

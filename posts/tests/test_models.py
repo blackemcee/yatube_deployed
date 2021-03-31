@@ -19,11 +19,14 @@ class GroupPostModelTest(TestCase):
         )
 
     def test_verbose_name(self):
-        """Проверка корректности содержимого поля verbose для постов"""
+        """
+        Проверка корректности содержимого поля verbose для постов
+        """
         post = GroupPostModelTest.post
         field_verboses = {
             'text': 'Текст поста',
             'group': 'Название сообщества',
+            'image': 'Приложу-ка я картинку',
         }
         for value, expected in field_verboses.items():
             with self.subTest(value=value):
@@ -31,7 +34,9 @@ class GroupPostModelTest(TestCase):
                                  expected)
 
     def test_help_text(self):
-        """Проверка корректности содержимого поля help_text для постов"""
+        """
+        Проверка корректности содержимого поля help_text для постов
+        """
         post = GroupPostModelTest.post
         field_help_texts = {
             'text': 'Введите текст поста',
@@ -43,11 +48,15 @@ class GroupPostModelTest(TestCase):
                                  expected)
 
     def test_post_str_method(self):
-        """Проверка, что str сокращает текст поста до 15 символов"""
+        """
+        Проверка, что str сокращает текст поста до 15 символов
+        """
         post = GroupPostModelTest.post
         self.assertEqual(str(post), post.text[:15])
 
     def test_group_str_method(self):
-        """Проверка, что str корректно выдает название группы"""
+        """
+        Проверка, что str корректно выдает название группы
+        """
         group = GroupPostModelTest.group
         self.assertEqual(str(group), group.title)

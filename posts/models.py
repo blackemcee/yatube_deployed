@@ -32,7 +32,12 @@ class Post(models.Model):
         null=True,
         related_name='posts'
     )
-    image = models.ImageField(upload_to='posts/', blank=True, null=True)
+    image = models.ImageField(
+        upload_to='posts/',
+        verbose_name='Приложу-ка я картинку',
+        blank=True,
+        null=True
+    )
 
     def __str__(self):
         return self.text[:15]
@@ -42,13 +47,24 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE,
-                             related_name='comments')
-    author = models.ForeignKey(User, on_delete=models.CASCADE,
-                               related_name='comments')
-    text = models.TextField('Текст комментария', help_text='Напишите '
-                                                           'комментарий')
-    created = models.DateTimeField('Дата публикации', auto_now_add=True)
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    text = models.TextField(
+        'Текст комментария',
+        help_text='Напишите комментарий'
+    )
+    created = models.DateTimeField(
+        'Дата публикации',
+        auto_now_add=True
+        )
 
     def __str__(self):
         return self.text[:15]
@@ -59,3 +75,9 @@ class Follow(models.Model):
                              related_name='follower')
     author = models.ForeignKey(User, on_delete=models.CASCADE,
                                related_name='following')
+
+    class Meta:
+        models.UniqueConstraint(
+            fields=['user', 'author'],
+            name='unique link'
+        )

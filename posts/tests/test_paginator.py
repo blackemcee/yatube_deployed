@@ -23,7 +23,9 @@ class PaginatorViewsTest(TestCase):
             )
 
     def test_first_page_contains_ten_records(self):
-        """Проверка, что пагинатор выдает на первую страницу 10 постов"""
+        """
+        Проверка, что пагинатор выдает на первую страницу 10 постов
+        """
         response = PaginatorViewsTest.client.get(reverse('index'))
         self.assertEqual(len(response.context.get('page').object_list), 10)
 

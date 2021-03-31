@@ -21,7 +21,9 @@ class AboutUrlsTests(TestCase):
                 self.assertEqual(response.status_code, 200)
 
     def test_about_url_uses_correct_template(self):
-        """Проверка, что страницы приложения about корректные шаблоны"""
+        """
+        Проверка, что страницы приложения about корректные шаблоны
+        """
         for template, path in self.templates.items():
             with self.subTest():
                 response = self.guest_client.get(path)

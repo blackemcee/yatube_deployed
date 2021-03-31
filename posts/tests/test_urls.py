@@ -61,7 +61,7 @@ class StaticURLTests(TestCase):
         templates_url_names = {
             'index.html': '/',
             'group.html': '/group/test-slug/',
-            'posts/new.html': ('/new/',
+            'new.html': ('/new/',
                                f'/test/{StaticURLTests.post.pk}/edit/')
         }
         for template, reverse_name in templates_url_names.items():
@@ -95,7 +95,9 @@ class StaticURLTests(TestCase):
                              f'/test/{StaticURLTests.post.pk}/')
 
     def test_check_404_code(self):
-        """Проверка, возвращает ли сервер код 404 если ошибка не найдена"""
+        """
+        Проверка, возвращает ли сервер код 404 если ошибка не найдена
+        """
         path = '/check/page/that/does/not/exist/'
         response = StaticURLTests.guest_client.get(path)
         self.assertEqual(response.status_code, 404)
