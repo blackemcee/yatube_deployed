@@ -61,8 +61,10 @@ class StaticURLTests(TestCase):
         templates_url_names = {
             'index.html': '/',
             'group.html': '/group/test-slug/',
-            'new.html': ('/new/',
-                               f'/test/{StaticURLTests.post.pk}/edit/')
+            'new.html': (
+                '/new/',
+                f'/test/{StaticURLTests.post.pk}/edit/'
+            )
         }
         for template, reverse_name in templates_url_names.items():
             with self.subTest():
