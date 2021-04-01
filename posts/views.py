@@ -45,10 +45,8 @@ def profile(request, username):
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     number_of_posts = posts.count()
-    number_of_following = Follow.objects.filter(
-        user_id__username=username).count()
-    number_of_followers = Follow.objects.filter(
-        author_id__username=username).count()
+    number_of_following = user.follower.count()
+    number_of_followers = user.following.count()
     following = request.user.is_authenticated and Follow.objects.filter(
         user=request.user,
         author__username=username
