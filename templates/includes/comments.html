@@ -30,7 +30,7 @@
         <p>{{ item.text | linebreaksbr }}</p>
         {% if user == item.author %}
         <a href="{% url 'comment_delete' post.author.username post.id item.id %}">
-            Удалить
+            <small >Удалить</small>
         </a>
         {% endif %}
     </div>
