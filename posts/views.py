@@ -69,8 +69,12 @@ def post_view(request, username, post_id):
                                     id=post_id)
     comments = single_post.comments.all()
     number_of_posts = single_post.author.posts.count()
+    number_of_following = single_post.author.follower.count()
+    number_of_followers = single_post.author.following.count()
     context = {
         'number_of_posts': number_of_posts,
+        'number_of_followers': number_of_followers,
+        'number_of_following': number_of_following,
         'post': single_post,
         'form': form,
         'comments': comments,
