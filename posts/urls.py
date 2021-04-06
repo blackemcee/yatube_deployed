@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('search_results/', views.search_results, name='search_results'),
     path('new/', views.new_post, name='new_post'),
     path('follow/', views.follow_index, name='follow_index'),
     path('<str:username>/follow/', views.profile_follow,
@@ -20,4 +21,5 @@ urlpatterns = [
     path('group/<slug:slug>/', views.group_posts, name='groups'),
     path('<str:username>/<int:post_id>/comment', views.add_comment,
          name='add_comment'),
+
 ]

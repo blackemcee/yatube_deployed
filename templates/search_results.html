@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Результаты поиска{% endblock %}
+{% block header %}{% endblock %}
+{% block content %}
+        {% if searched %}
+            <h2>Вы искали <span style="color:red">{{ searched }},</span> вот что мы нашли</h2>
+            <br/>
+            {% for post in posts %}
+                  <div class="card-body">
+                     <p class="card-text">
+                     <a name="post_{{ post.id }}" href="{% url 'profile' post.author.username %}">
+                         <strong class="d-block text-gray-dark">@{{ post.author }}</strong>
+                     </a>
+                         <small class="text-muted">{{ post.pub_date }}</small>
+                             <br/>
+                     {{ post.text|truncatechars:255|linebreaksbr }}
+                     <small>
+                         <a href="{% url 'post' post.author.username post.id %}">read full post</a>
+                     </small>
+                     </p>
+
+                  </div>
+            {% endfor %}
+        {% else %}
+            <h2 style="color:red">Кажется, вы забыли ввести поисковый
+                запрос</h2>
+        {% endif %}
+{% endblock %}

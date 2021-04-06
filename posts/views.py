@@ -158,3 +158,14 @@ def profile_unfollow(request, username):
     )
     instance.delete()
     return redirect('follow_index')
+
+
+def search_results(request):
+    if request.method == 'POST':
+        searched = request.POST['searched']
+        posts = Post.objects.filter(text__contains=searched)
+        return render(
+            request,
+            'search_results.html',
+            {'searched': searched, 'posts': posts})
+    return render(request, 'search_results.html')

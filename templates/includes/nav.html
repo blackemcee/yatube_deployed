@@ -1,5 +1,11 @@
-<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" href="{% url 'index' %}"><span style="color:red">Ya</span>tube</a>
+<nav class="navbar navbar-light" style="background-color: #ffffff;">
+    <a href="{% url 'index' %}">
+        <img height="50px" src="/static/images/logo.png"></a>
+    <form method="POST" action="{% url 'search_results' %}">
+        {% csrf_token %}
+        <input type="search" placeholder="Искать запись" name="searched"/>
+        <button type="submit">Искать</button>
+    </form>
     <nav class="my-2 my-md-0 mr-md-3">
         {% if user.is_authenticated %}
             Пользователь: {{ user.username }}
