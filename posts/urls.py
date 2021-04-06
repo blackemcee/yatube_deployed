@@ -18,8 +18,14 @@ urlpatterns = [
         views.post_edit,
         name='post_edit'
     ),
+    path(
+        '<str:username>/<int:post_id>/delete/',
+        views.post_delete,
+        name='post_delete'
+    ),
     path('group/<slug:slug>/', views.group_posts, name='groups'),
     path('<str:username>/<int:post_id>/comment', views.add_comment,
          name='add_comment'),
-
+    path('<str:username>/<int:post_id>/<int:comment_id>/delete/',
+         views.comment_delete, name='comment_delete'),
 ]

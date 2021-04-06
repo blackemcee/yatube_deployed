@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 
 from .forms import PostForm, CommentForm
-from .models import Post, Group, Follow
+from .models import Post, Group, Follow, Comment
 
 User = get_user_model()
 
@@ -36,6 +36,16 @@ def new_post(request):
         post.save()
         return redirect('index')
     return render(request, 'new.html', {'form': form, 'is_edit': False})
+
+
+@login_required
+def post_delete(request, username, post_id):
+    post = get_object_or_404(Post, author__username=username, id=post_id)
+    redirect_url = reverse('index')
+    if post.author != request.user:
+        return redirect(redirect_url)
+    post.delete()
+    return redirect(redirect_url)
 
 
 def profile(request, username):
@@ -130,6 +140,19 @@ def add_comment(request, username, post_id):
         return redirect('post', username, post_id)
     return render(request, 'includes/comments.html', {'form': form, 'post':
                   post, 'author': username})
+
+
+@login_required
+def comment_delete(request, username, post_id, comment_id):
+    comment = get_object_or_404(
+        Comment,
+        author__username=request.user.username,
+        id=comment_id)
+    redirect_url = reverse('post', args=[username, post_id])
+    if comment.author != request.user:
+        return redirect(redirect_url)
+    comment.delete()
+    return redirect(redirect_url)
 
 
 @login_required

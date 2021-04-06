@@ -28,6 +28,12 @@
             </a>
         </h5>
         <p>{{ item.text | linebreaksbr }}</p>
+        {% if user == item.author %}
+        <a
+                href="{% url 'comment_delete' post.author.username post.id item.id %}">
+            Удалить
+        </a>
+        {% endif %}
     </div>
 </div>
 {% endfor %}
