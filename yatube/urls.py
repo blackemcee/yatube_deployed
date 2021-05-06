@@ -10,6 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('posts.urls')),
     path('about/', include('about.urls', namespace='about')),
+    path('api/', include('api.urls')),
 ]
 
 handler404 = 'posts.views.page_not_found'  # noqa
